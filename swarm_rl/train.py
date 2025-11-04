@@ -5,10 +5,12 @@ Main script for training a swarm of quadrotors with SampleFactory
 
 import sys
 
+sys.path.append("/home/valentin/RL/sample-factory")
 from sample_factory.cfg.arguments import parse_full_cfg, parse_sf_args
 from sample_factory.envs.env_utils import register_env
 from sample_factory.train import run_rl
 
+sys.path.append("/home/valentin/RL/quad-swarm-rl")
 from swarm_rl.env_wrappers.quad_utils import make_quadrotor_env
 from swarm_rl.env_wrappers.quadrotor_params import add_quadrotors_env_args, quadrotors_override_defaults
 from swarm_rl.models.quad_multi_model import register_models
