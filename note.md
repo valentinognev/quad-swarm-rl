@@ -1,4 +1,29 @@
-python -m swarm_rl.train \
+# 复现笔记
+## 配置
+```sh
+docker build -f docker/simulation.dockerfile -t quad_swarm_image:v0 --network=host --progress=plain .
+
+# docker run --name quad-swarm -itd --privileged --gpus all --network=host \
+#     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+#     -v /home/dzp/projects/quad-swarm-rl:/workspace/quad-swarm-rl \
+#     -e DISPLAY=$DISPLAY \
+#     -e LOCAL_USER_ID="$(id -u)" \
+#     quad_swarm_image:v0 /bin/bash
+
+sudo docker run --name quad-swarm -itd --privileged --gpus all --network=host \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    -v /home/ubuntu/dzp_is_sb/quad-swarm-rl:/workspace/quad-swarm-rl \
+    -e DISPLAY=$DISPLAY \
+    -e LOCAL_USER_ID="$(id -u)" \
+    quad_swarm_image:v0 /bin/bash
+
+docker exec -it quad-swarm /bin/bash
+
+cd /workspace/quad-swarm-rl
+
+python3 -m pip install -e .
+
+python3 -m swarm_rl.train \
 --env=quadrotor_multi --train_for_env_steps=1000000000 --algo=APPO --use_rnn=False \
 --num_workers=4 --num_envs_per_worker=4 --learning_rate=0.0001 --ppo_clip_value=5.0 --recurrence=1 \
 --nonlinearity=tanh --actor_critic_share_weights=False --policy_initialization=xavier_uniform \
@@ -14,3 +39,6 @@ python -m swarm_rl.train \
 --quads_neighbor_encoder_type=attention --quads_neighbor_visible_num=6 \
 --quads_use_obstacles=False --quads_use_downwash=True \
 --experiment=test_multi_drone
+
+python3 -m swarm_rl.enjoy --algo=APPO --env=quadrotor_multi --replay_buffer_sample_prob=0 --quads_use_numba=False --quads_render=True --train_dir=PATH_TO_TRAIN_DIR --experiment=EXPERIMENT_NAME --quads_view_mode CAMERA_VIEWS
+```

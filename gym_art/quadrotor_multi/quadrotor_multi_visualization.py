@@ -121,10 +121,7 @@ class Quadrotor3DSceneMulti:
             render_speed=1.0, formation_size=-1.0, vis_vel_arrows=True, vis_acc_arrows=True, viz_traces=100, viz_trace_nth_step=1,
             num_obstacles=0, scene_index=0
     ):
-        try:
-            self.pygl_window = __import__('pyglet.window', fromlist=['key'])
-        except:
-            self.pygl_window = __import__(pyglet.window.key.__name__)
+        self.pygl_window = __import__('pyglet.window', fromlist=['key'])
         self.keys = None  # keypress handler, initialized later
 
         if obs_hw is None:

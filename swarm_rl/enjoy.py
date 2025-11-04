@@ -1,6 +1,4 @@
 import sys
-sys.path.append("/home/valentin/RL/sample-factory")
-sys.path.append("/home/valentin/RL/quad-swarm-rl")
 
 from sample_factory.enjoy import enjoy
 
